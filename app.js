@@ -5,13 +5,17 @@ const app = express();
 
 const userRoute = require("./router/userRouter");
 const reviewRoute = require("./router/reviewRouter");
+const favoriteRoute = require("./router/favoriteRouter");
 const fillDatabaseRoute = require("./router/fillDatabaseRouter");
+
 
 app.use(cors());
 app.use(express.json());
 
 app.use('/user', userRoute);
 app.use('/review', reviewRoute);
+app.use('/fav', favoriteRoute);
 app.use('/fill', fillDatabaseRoute);
+
 
 module.exports = app;

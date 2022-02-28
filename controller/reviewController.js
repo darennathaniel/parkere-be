@@ -20,7 +20,6 @@ const GetReviewByCarpark = async (req, res) => {
                 rating : reviews[i].rating
             })
         }
-        console.log(responseData);
         return res.status(200).json({
             message: "success",
             data: responseData,
