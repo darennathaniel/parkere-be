@@ -1,5 +1,3 @@
-const express =  require("express");
-const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -29,11 +27,16 @@ const Register = async (req,res) => {
             [username, email, hashedPassword]
         );
 
-        const returnNewUser = newUser.rows;
+        const returnNewUser = newUser.rows[0];
+        const token = jwt.sign(
+            { id: returnNewUser.id, name: returnNewUser.username },
+            process.env.TOKEN_SECRET
+        );
+
         return res.status(200).json({
             message: "successfully register",
-            data: { returnNewUser },
-            error: false,
+            data: { token: token },
+            error: false, 
         });
 
     } catch(error){
@@ -62,7 +65,7 @@ const Login = async (req, res) => {
         if (!validPass) throw Error("invalid password");
         
         const token = jwt.sign(
-          { id: user.id, name: user.username },
+          { id: user.user_id, name: user.username },
           process.env.TOKEN_SECRET
         );
         
