@@ -2,7 +2,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const {registerValidation, loginValidation} = require("../helperFunctions/validation");
-const pool = require("../db.js")
+const pool = require("../db.js");
+const passport = require("passport");
+require('../config/passport-setup');
 
 const Register = async (req,res) => {
     try{
@@ -85,9 +87,28 @@ const Login = async (req, res) => {
     }
 }
 
-// const Refresh = async(req, res) => {
-//     continue
-// }
+const GenerateUserToken = async (req, res) => {
+    console.log(req.user);
+    try{
+        const user = req.user;
+        const token = jwt.sign(
+            { id: user.user_id, name: user.username },
+            process.env.TOKEN_SECRET
+        );
+          
+        return res.status(200).json({
+            message: "success",
+            token: token,
+            error: false,
+        });
+    } catch(error){
+        return res.status(400).json({
+            message: error.message,
+            data: [],
+            error: true,
+        });
+    }
+}
 
 const Logout = async(req, res) => {
     try {
@@ -105,7 +126,8 @@ const Logout = async(req, res) => {
 const UserController = {
     Register,
     Login,
-    Logout
+    Logout,
+    GenerateUserToken
 }
 
 module.exports = UserController
