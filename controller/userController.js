@@ -113,13 +113,12 @@ const Google = async (req, res) => {
     );
 
     const user = await pool.query("SELECT * FROM Account WHERE email=($1)", [
-      profile.email,
+      profile.data.email,
     ]);
-
     if (user.rows.length == 0) {
       const newUser = await pool.query(
         "INSERT INTO Account(googleId, username, email) VALUES($1,$2,$3) RETURNING *",
-        [profile.id, profile.name, profile.email]
+        [profile.data.id, profile.data.name, profile.data.email]
       );
       const userJWT = newUser.rows[0];
       const token = jwt.sign(
@@ -129,6 +128,7 @@ const Google = async (req, res) => {
 
       return res.status(200).json({
         message: "success",
+        name: profile.data.name,
         token: token,
         error: false,
       });
@@ -141,6 +141,7 @@ const Google = async (req, res) => {
 
       return res.status(200).json({
         message: "success",
+        name: profile.data.name,
         token: token,
         error: false,
       });
