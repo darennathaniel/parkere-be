@@ -2,8 +2,8 @@
 CREATE TABLE Carpark(
     _id INT PRIMARY KEY,
     building_type VARCHAR(255),
-    x_coor VARCHAR(255),
-    y_coor VARCHAR(255),
+    lat VARCHAR(255),
+    lon VARCHAR(255),
     free_parking VARCHAR(255),
     gantry_height VARCHAR(255),
     carpark_basement VARCHAR(255),

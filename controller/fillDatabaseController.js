@@ -2,6 +2,7 @@
 
 const axios = require("axios");
 const pool = require("../db.js");
+const svy21 = require("../helperFunctions/svy21");
 
 const fillCarparkDatabase = async (req, res) => {
   try {
@@ -20,17 +21,21 @@ const fillCarparkDatabase = async (req, res) => {
     for (var i = 0; i < carparkArray.length; i++) {
       const carpark = carparkArray[i];
       if (carparkSet.has(carpark.car_park_no)) {
-        console.log(carpark.car_park_no);
         continue;
       }
       carparkSet.add(carpark.car_park_no);
+      const converter = new svy21();
+      const { lat, lon } = converter.computeLatLon(
+        carpark.y_coord,
+        carpark.x_coord
+      );
       const newCarpark = await pool.query(
-        "INSERT INTO Carpark(_id, building_type, x_coor, y_coor, free_parking, gantry_height, carpark_basement, park_number, park_address, short_term, paying_system, night_parking) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *",
+        "INSERT INTO Carpark(_id, building_type, lat, lon, free_parking, gantry_height, carpark_basement, park_number, park_address, short_term, paying_system, night_parking) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *",
         [
           carpark._id,
           carpark.car_park_type,
-          carpark.x_coord,
-          carpark.y_coord,
+          lat,
+          lon,
           carpark.free_parking,
           carpark.gantry_height,
           carpark.car_park_basement,
