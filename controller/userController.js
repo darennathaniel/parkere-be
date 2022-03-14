@@ -74,7 +74,7 @@ const Login = async (req, res) => {
     if (!validPass) throw Error("invalid password");
 
     const token = jwt.sign(
-      { id: user.user_id, name: user.username },
+      { id: user.user_id, name: user.username, email: user.email },
       process.env.TOKEN_SECRET
     );
 
@@ -122,26 +122,24 @@ const Google = async (req, res) => {
       );
       const userJWT = newUser.rows[0];
       const token = jwt.sign(
-        { id: userJWT.user_id, name: userJWT.username },
+        { id: userJWT.user_id, name: userJWT.username, email: userJWT.email },
         process.env.TOKEN_SECRET
       );
 
       return res.status(200).json({
         message: "success",
-        name: profile.data.name,
         token: token,
         error: false,
       });
     } else {
       const userJWT = user.rows[0];
       const token = jwt.sign(
-        { id: userJWT.user_id, name: userJWT.username },
+        { id: userJWT.user_id, name: userJWT.username, email: userJWT.email },
         process.env.TOKEN_SECRET
       );
 
       return res.status(200).json({
         message: "success",
-        name: profile.data.name,
         token: token,
         error: false,
       });
