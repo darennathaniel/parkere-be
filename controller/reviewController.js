@@ -22,6 +22,7 @@ const GetReviewByCarpark = async (req, res) => {
       );
       const username = queryUser.rows[0].username;
       responseData.push({
+        review_id: reviews[i].review_id,
         username: username,
         carpark_id: carpark_id,
         comment: reviews[i].comment,
