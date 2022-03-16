@@ -41,6 +41,43 @@ const SetFavorite = async (req, res) => {
   }
 };
 
+const DeleteFavorite = async (req,res) => {
+  try{
+    const user = req.user;
+
+    const userId = user.id;
+    const carparkId = req.body.carpark_id;
+
+    if (!userId || !carparkId) throw Error("Missing data");
+
+    const checkExistence = await pool.query(
+      "SELECT * FROM Favorite WHERE user_id=($1) AND carpark_id=($2)",
+      [userId, carparkId]
+    );
+
+    if (checkExistence.rows[0]) throw Error("Already set to favorite");
+
+    const deleteFavorite = await pool.query(
+      "DELETE FROM Favorite WHERE user_id=($1) AND carpark_id=($2)",
+      [userId, carparkId]
+    );
+
+    if (!deleteFavorite) throw Error("fail to insert to the database");
+    
+    return res.status(200).json({
+      message: "success",
+      data: [],
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+      data: [],
+      error: true,
+    });
+  }
+};
+
 const GetFavoriteByUser = async (req, res) => {
   try {
     const user = req.user;
@@ -78,6 +115,7 @@ const GetFavoriteByUser = async (req, res) => {
 };
 const FavoriteController = {
   SetFavorite,
+  DeleteFavorite,
   GetFavoriteByUser,
 };
 
