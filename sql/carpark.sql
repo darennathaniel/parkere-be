@@ -11,6 +11,7 @@ CREATE TABLE Carpark(
     park_address VARCHAR(255),
     short_term VARCHAR(255),
     paying_system VARCHAR(255),
-    night_parking VARCHAR(255)
+    night_parking VARCHAR(255),
+    rate VARCHAR(255)
 );
 

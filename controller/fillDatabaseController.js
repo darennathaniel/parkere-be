@@ -29,8 +29,29 @@ const fillCarparkDatabase = async (req, res) => {
         carpark.y_coord,
         carpark.x_coord
       );
+      const centralArea = [
+        "ACB",
+        "BBB",
+        "BRB1",
+        "CY",
+        "DUXM",
+        "HLM",
+        "KAB",
+        "KAM",
+        "KAS",
+        "PRM",
+        "SLS",
+        "SR1",
+        "SR2",
+        "TPM",
+        "UCS",
+        "WCB",
+      ];
+      const rate = centralArea.includes(carpark.car_park_no)
+        ? "$1.20 per half-hour (7:00am to 5:00pm, Monday to Saturday) $0.60 per half hour (Other hours)"
+        : "$0.60 per half-hour";
       const newCarpark = await pool.query(
-        "INSERT INTO Carpark(_id, building_type, lat, lon, free_parking, gantry_height, carpark_basement, park_number, park_address, short_term, paying_system, night_parking) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *",
+        "INSERT INTO Carpark(_id, building_type, lat, lon, free_parking, gantry_height, carpark_basement, park_number, park_address, short_term, paying_system, night_parking, rate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *",
         [
           carpark._id,
           carpark.car_park_type,
@@ -44,6 +65,7 @@ const fillCarparkDatabase = async (req, res) => {
           carpark.short_term_parking,
           carpark.type_of_parking_system,
           carpark.night_parking,
+          rate,
         ]
       );
       if (!newCarpark) throw Error("fail to insert a record");
