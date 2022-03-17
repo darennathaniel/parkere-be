@@ -41,8 +41,8 @@ const SetFavorite = async (req, res) => {
   }
 };
 
-const DeleteFavorite = async (req,res) => {
-  try{
+const DeleteFavorite = async (req, res) => {
+  try {
     const user = req.user;
 
     const userId = user.id;
@@ -55,15 +55,15 @@ const DeleteFavorite = async (req,res) => {
       [userId, carparkId]
     );
 
-    if (checkExistence.rows[0]) throw Error("Already set to favorite");
+    if (!checkExistence.rows[0]) throw Error("No favorite in row!");
 
     const deleteFavorite = await pool.query(
       "DELETE FROM Favorite WHERE user_id=($1) AND carpark_id=($2)",
       [userId, carparkId]
     );
 
-    if (!deleteFavorite) throw Error("fail to insert to the database");
-    
+    if (!deleteFavorite) throw Error("fail to delete from database");
+
     return res.status(200).json({
       message: "success",
       data: [],
