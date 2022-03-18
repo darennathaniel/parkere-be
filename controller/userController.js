@@ -36,7 +36,11 @@ const Register = async (req, res) => {
 
     const returnNewUser = newUser.rows[0];
     const token = jwt.sign(
-      { id: returnNewUser.id, name: returnNewUser.username },
+      {
+        id: returnNewUser.user_id,
+        name: returnNewUser.username,
+        email: returnNewUser.email,
+      },
       process.env.TOKEN_SECRET
     );
 
@@ -115,7 +119,7 @@ const Google = async (req, res) => {
     const user = await pool.query("SELECT * FROM Account WHERE email=($1)", [
       profile.data.email,
     ]);
-    if (user.rows.length == 0) {
+    if (user.rows.length === 0) {
       const newUser = await pool.query(
         "INSERT INTO Account(googleId, username, email) VALUES($1,$2,$3) RETURNING *",
         [profile.data.id, profile.data.name, profile.data.email]
