@@ -72,6 +72,7 @@ const PostReview = async (req, res) => {
     return res.status(200).json({
       message: "success",
       data: {
+        review_id: queryReview.rows[0].review_id,
         username: user.name,
         carpark_id: carparkId,
         comment: comment,
