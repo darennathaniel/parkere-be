@@ -6,16 +6,19 @@ const svy21 = require("../helperFunctions/svy21");
 
 const fillCarparkDatabase = async (req, res) => {
   try {
-    const api_url = "https://data.gov.sg/api/action/datastore_search";
-    const result = await axios.get(api_url, {
-      params: {
-        resource_id: "139a3035-e624-4f56-b63f-89ae28d4ae4c",
-        limit: 1000,
-      },
-    });
+    // const api_url = "https://data.gov.sg/api/action/datastore_search";
+    // const result = await axios.get(api_url, {
+    //   params: {
+    //     resource_id: "139a3035-e624-4f56-b63f-89ae28d4ae4c",
+    //     limit: 4352,
+    //   },
+    // });
 
-    if (!result) throw Error("Fail to fetch the api");
-    const carparkArray = result.data.result.records;
+    // if (!result) throw Error("Fail to fetch the api");
+    if (!req.body) {
+      throw Error("No data!");
+    }
+    const carparkArray = req.body;
     const carparkSet = new Set();
 
     for (var i = 0; i < carparkArray.length; i++) {
