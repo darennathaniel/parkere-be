@@ -14,7 +14,7 @@ for first time:
 4. npm install nodemon -D (installing nodemon for devDependency)
 
 run postgres (install psql and set username = postgres, password):
-1. psql -U postgres or psql -u your username
+1. psql -U postgres or psql -u your username or sudo -u postgres psql
 2. insert password
 3. \l to see all database
 4. CREATE DATABASE parkere (in psql)
@@ -23,7 +23,7 @@ run postgres (install psql and set username = postgres, password):
 
 create table in postgres
 1. go to command prompt cd to the parkere-be, then cd sql
-2. log in to the psql -U postgres
+2. log in to the psql -U postgres or sudo -u postgres psql
 3. \c parkere
 4. \i carpark.sql
 5. \i favorite.sql
