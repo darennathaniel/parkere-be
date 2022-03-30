@@ -1,7 +1,7 @@
 const Pool = require("pg").Pool;
 require("dotenv").config();
 
-const devConfig = `postgresql://root:password@localhost:5432/parkere`;
+const devConfig = `postgresql://darennathanieljanto:password@localhost:5432/parkere`;
 
 const proConfig = process.env.DATABASE_URL; // for production put database url in .env
 const pool = new Pool({
