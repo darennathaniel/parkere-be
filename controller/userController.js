@@ -41,7 +41,7 @@ const Register = async (req, res) => {
         name: returnNewUser.username,
         email: returnNewUser.email,
       },
-      process.env.TOKEN_SECRET
+      "i3ijbi3hrbgi3brgi34ugbr4fijwerijgbwrtg"
     );
 
     return res.status(200).json({
@@ -79,7 +79,7 @@ const Login = async (req, res) => {
 
     const token = jwt.sign(
       { id: user.user_id, name: user.username, email: user.email },
-      process.env.TOKEN_SECRET
+      "i3ijbi3hrbgi3brgi34ugbr4fijwerijgbwrtg"
     );
 
     res.header("auth-token", token);
@@ -127,7 +127,7 @@ const Google = async (req, res) => {
       const userJWT = newUser.rows[0];
       const token = jwt.sign(
         { id: userJWT.user_id, name: userJWT.username, email: userJWT.email },
-        process.env.TOKEN_SECRET
+        "i3ijbi3hrbgi3brgi34ugbr4fijwerijgbwrtg"
       );
 
       return res.status(200).json({
@@ -139,7 +139,7 @@ const Google = async (req, res) => {
       const userJWT = user.rows[0];
       const token = jwt.sign(
         { id: userJWT.user_id, name: userJWT.username, email: userJWT.email },
-        process.env.TOKEN_SECRET
+        "i3ijbi3hrbgi3brgi34ugbr4fijwerijgbwrtg"
       );
 
       return res.status(200).json({
