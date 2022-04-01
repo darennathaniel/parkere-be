@@ -29,11 +29,12 @@ const Register = async (req, res) => {
 
     if (result.rows[0]) throw Error("username has been used");
 
-    const email = await pool.query("SELECT * FROM Account WHERE email = ($1)", [
-      email,
-    ]);
+    const emailCheck = await pool.query(
+      "SELECT * FROM Account WHERE email = ($1)",
+      [email]
+    );
 
-    if (email.rows[0]) throw Error("email has been used");
+    if (emailCheck.rows[0]) throw Error("email has been used");
 
     const newUser = await pool.query(
       "INSERT INTO Account(username,email,password) VALUES($1,$2,$3) RETURNING *",
