@@ -61,7 +61,16 @@ const PostReview = async (req, res) => {
     if (!rating) {
       throw Error("Missing rating number");
     }
-
+    const getReview = await pool.query(
+      "SELECT * FROM Review WHERE carpark_id=($1)",
+      [carparkId]
+    );
+    for (let i = 0; i < getReview.rows.length; i++) {
+      const data_user_id = getReview.rows[i].user_id;
+      if (data_user_id === userId) {
+        throw Error("Cannot make a review twice or more!");
+      }
+    }
     const queryReview = await pool.query(
       "INSERT INTO Review(user_id, carpark_id, comment, rating) VALUES($1,$2,$3,$4) RETURNING *",
       [userId, carparkId, comment, rating]
